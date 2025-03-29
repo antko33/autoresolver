@@ -1,0 +1,32 @@
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+exclude = '''
+/(
+    \.venv
+  | venv
+  | build
+  | dist
+  | __pycache__
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.mypy]
+python_version = 3.12
+strict = true
+ignore_missing_imports = true
+disallow_untyped_calls = false
+disallow_untyped_defs = true
+exclude = '(venv|\.venv)/'
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+exclude = ["venv", ".venv"]
+select = ["E", "F", "B", "I"]
