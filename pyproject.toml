@@ -30,3 +30,7 @@ line-length = 88
 target-version = "py312"
 exclude = ["venv", ".venv"]
 select = ["E", "F", "B", "I"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

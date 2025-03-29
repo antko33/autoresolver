@@ -249,3 +249,9 @@ fabric.properties
 
 # PyPI configuration file
 .pypirc
+
+# Database
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
