@@ -1,17 +1,22 @@
+from typing import Any, AsyncGenerator
+
 import pytest
+from tortoise import Tortoise
 
 from app import models
 from app.db import db_init
 from app.models import Domain, User
 
 
-@pytest.fixture(autouse=True)  # type: ignore[misc]
-async def init_and_reset_db() -> None:
+@pytest.fixture(autouse=True)
+async def init_and_reset_db() -> AsyncGenerator[None, Any]:
     await db_init()
     await __clear_all_data()
+    yield
+    await Tortoise.close_connections()
 
 
-@pytest.mark.asyncio  # type: ignore[misc]
+@pytest.mark.asyncio
 async def test_create_user_and_domain() -> None:
     user, created = await User.get_or_create(tg_id="123456")
     domain = await Domain.create(user=user, domain="test.com")
