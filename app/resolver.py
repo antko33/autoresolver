@@ -7,6 +7,7 @@ import asyncio
 import os
 from asyncio import Semaphore
 from collections import defaultdict
+from pathlib import Path
 
 import dns.asyncresolver
 
@@ -26,7 +27,7 @@ async def load_dns():
 
 
 async def load_urls():
-    urls = []
+    urls = dict()
     urls_folder = "data/"
     try:
         for file in os.listdir(urls_folder):
@@ -34,9 +35,11 @@ async def load_urls():
                 continue
 
             with open(f"{urls_folder}{file}", "r") as f:
+                service_name = Path(file).stem
+                urls[service_name] = []
                 for line in f:
                     if line.strip():
-                        urls.append(line.strip())
+                        urls[service_name].append(line.strip())
     except Exception as e:
         print(f"Failed to load URLs: {e}")
 
@@ -115,7 +118,7 @@ async def resolve_dns(dns_names, dns_servers, semaphore):
     return ips
 
 
-class Resolver(object):
+class Resolver:
 
     def __init__(self, dns_servers, urls):
         self.__dns_servers = dns_servers
@@ -124,7 +127,11 @@ class Resolver(object):
     async def resolve_all(self) -> set[str]:
         semaphore = init_semaphores(20)
 
-        tasks = [resolve_dns(self.__urls, self.__dns_servers, semaphore)]
+        tasks = []
+        for service in self.__urls:
+            tasks.append(
+                resolve_dns(self.__urls[service], self.__dns_servers, semaphore)
+            )
         results = await asyncio.gather(*tasks)
 
         all_ips = set()
