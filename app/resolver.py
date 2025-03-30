@@ -4,6 +4,7 @@
 
 
 import asyncio
+import datetime
 import os
 from asyncio import Semaphore
 from collections import defaultdict
@@ -116,6 +117,30 @@ async def resolve_dns(dns_names, dns_servers, semaphore):
             ips.add(ip_address)
 
     return ips
+
+
+def save_to_file(ips) -> str | None:
+    def write_file(name, addresses, format_lambda):
+        formatted_ips = [format_lambda(ip.strip()) for ip in addresses]
+        with open(name, "w", encoding="utf-8") as file:
+            file.write("\n".join(formatted_ips))
+
+    if not ips:
+        return None
+
+    gateway = "0.0.0.0"
+
+    def subnet_formatter(ip):
+        return f"{ip.strip()}/24" if ip.endswith(".0") else f"{ip.strip()}/32"
+
+    def formatter(ip):
+        return f"ip route {subnet_formatter(ip)} {gateway} auto"
+
+    filename = f"routing_{datetime.date.today()}.txt"
+
+    write_file(filename, ips, formatter)
+
+    return filename
 
 
 class Resolver:

@@ -1,10 +1,9 @@
 from typing import Any, AsyncGenerator
 
 import pytest
-from tortoise import Tortoise
 
 from app import models
-from app.db import db_init
+from app.db import db_close, db_init
 from app.models import Domain, User
 
 
@@ -13,7 +12,7 @@ async def init_and_reset_db() -> AsyncGenerator[None, Any]:
     await db_init()
     await __clear_all_data()
     yield
-    await Tortoise.close_connections()
+    await db_close()
 
 
 @pytest.mark.asyncio
