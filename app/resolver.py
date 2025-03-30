@@ -131,10 +131,14 @@ def save_to_file(ips) -> str | None:
     gateway = "0.0.0.0"
 
     def subnet_formatter(ip):
-        return f"{ip.strip()}/24" if ip.endswith(".0") else f"{ip.strip()}/32"
+        return (
+            f"{ip.strip()} mask 255.255.255.0"
+            if ip.endswith(".0")
+            else f"{ip.strip()} mask 255.255.255.255"
+        )
 
     def formatter(ip):
-        return f"ip route {subnet_formatter(ip)} {gateway} auto"
+        return f"route add {subnet_formatter(ip)} {gateway}"
 
     filename = f"routing_{datetime.date.today()}.txt"
 
