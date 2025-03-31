@@ -25,6 +25,15 @@ jobs:
           pip install -r requirements/requirements.txt
           pip install -r requirements/dev-requirements.txt
 
+      - name: Create .env from secrets
+        run: |
+          echo "DB_PATH=${{ secrets.DB_PATH }}" >> .env
+          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" >> .env
+          echo "USER_ID=${{ secrets.USER_ID }}" >> .env
+          echo "API_HOST=${{ secrets.API_HOST }}" >> .env
+          echo "API_PORT=${{ secrets.API_PORT }}" >> .env
+          echo "API_URL=${{ secrets.API_URL }}" >> .env
+
       - name: Run ruff
         run: |
           ruff check .
@@ -54,6 +63,15 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements/requirements.txt
           pip install -r requirements/dev-requirements.txt
+
+      - name: Create .env from secrets
+        run: |
+          echo "DB_PATH=${{ secrets.DB_PATH }}" >> .env
+          echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" >> .env
+          echo "USER_ID=${{ secrets.USER_ID }}" >> .env
+          echo "API_HOST=${{ secrets.API_HOST }}" >> .env
+          echo "API_PORT=${{ secrets.API_PORT }}" >> .env
+          echo "API_URL=${{ secrets.API_URL }}" >> .env
 
       - name: Run tests
         run: |
