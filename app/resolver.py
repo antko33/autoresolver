@@ -15,7 +15,7 @@ import dns.asyncresolver
 
 async def load_dns():
     try:
-        with open("data/dns_addresses", "r") as file:
+        with open("misc/dns_addresses", "r") as file:
             dns_servers = {}
             for line in file:
                 if line.strip():
@@ -29,7 +29,7 @@ async def load_dns():
 
 async def load_urls():
     urls = dict()
-    urls_folder = "data/"
+    urls_folder = "misc/"
     try:
         for file in os.listdir(urls_folder):
             if not file.endswith(".urls"):
