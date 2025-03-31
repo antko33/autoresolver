@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+.env/
+*.env
+
+# IDE
+.idea/
+.vscode/
+
+# Git
+.git/
+.gitignore
+
+# Byte-compiled
+*.so
+
+# Tests, coverage
+.coverage
+htmlcov/
+*.log
+*.pytest_cache/
+.tox/
+*.test.db
+
+# Misc
+*.db
+*.sqlite3
+*.bak
+*.swp
+*.swo
+
+# Mac/Windows crap
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
