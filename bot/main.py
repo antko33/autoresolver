@@ -1,10 +1,11 @@
 import asyncio
 
+import aiohttp
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from bot.config import BOT_TOKEN
+from bot.config import API_URL, BOT_TOKEN
 
 bot = Bot(BOT_TOKEN)
 dispatcher = Dispatcher()
@@ -17,7 +18,12 @@ async def start(message: Message):
 
 @dispatcher.message(Command("generate"))
 async def generate(message: Message):
-    await message.answer("Создаю таблицу")
+    async with aiohttp.ClientSession() as session:
+        async with session.post(f"{API_URL}/generate_table") as resp:
+            if resp.status == 200:
+                await message.answer("Создаю таблицу. Это может занять несколько минут")
+            else:
+                await message.answer("Ошибка генерации 😓")
 
 
 async def main():

@@ -15,3 +15,5 @@ TORTOISE_ORM = {
     },
 }
 API_PORT = int(os.getenv("API_PORT"))
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+USER_ID = os.getenv("USER_ID")  # TODO: remove
